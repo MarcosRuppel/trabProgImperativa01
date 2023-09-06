@@ -1,17 +1,19 @@
 // PUCPR - Bacharelado em Ciência da Computação
 // Autor: Marcos Paulo Ruppel - Turma 2U (Noite)
 #include <stdio.h>
+#include <locale.h>
 #include "structs.h"
 
 int main(void) {
+
     // Abrindo os arquivos TXT
-    FILE *vendasFile = fopen("vendas.txt", "r");
-    FILE *produtosFile = fopen("produtos.txt", "r");
-    FILE *vendedoresFile = fopen("vendedores.txt", "r");
+    FILE *vendasFile = fopen("../vendas.txt", "r");
+    FILE *produtosFile = fopen("../produtos.txt", "r");
+    FILE *vendedoresFile = fopen("../vendedores.txt", "r");
 
     // Validando se os arquivos foram encontrados
     if (!vendasFile || !produtosFile || !vendedoresFile) {
-        printf("Erro ao abrir os arquivos de entrada.\n");
+        printf("Arquivos de entrada nao encontrados.\n");
         return 1;
     }
 
@@ -62,22 +64,22 @@ int main(void) {
     }
 
     // Cria o arquivo de saida
-    FILE *totaisFile = fopen("totais.txt", "w");
+    FILE *totaisFile = fopen("../totais.txt", "w");
     if (!totaisFile) {
         printf("Erro ao criar o arquivo de saída.\n");
         return 1;
     }
 
     // Grava os totais no arquivo de saída
-    fprintf(totaisFile, "Total Geral Vendido: R$ %.2lf\n", totalGeral);
-    fprintf(totaisFile, "Total Vendido por Produto:\n");
+    fprintf(totaisFile, "Total Geral Vendido:\t R$ %5.2lf\n", totalGeral);
+    fprintf(totaisFile, "\nTotal Vendido por Produto:\n");
     for (int i = 0; i < numProdutos; i++) {
-        fprintf(totaisFile, "%d (%s): R$ %.2lf\n", produtos[i].codigo, produtos[i].descricao,
+        fprintf(totaisFile, "%d \t %s:\t R$ %5.2lf\n", produtos[i].codigo, produtos[i].descricao,
                 totalPorProduto[i]);
     }
-    fprintf(totaisFile, "Total Vendido por Vendedor:\n");
+    fprintf(totaisFile, "\nTotal Vendido por Vendedor:\n");
     for (int i = 0; i < numVendedores; i++) {
-        fprintf(totaisFile, "%d (%s): R$ %.2lf\n", vendedores[i].codigo, vendedores[i].nome,
+        fprintf(totaisFile, "%d \t %s:\t R$ %5.2lf\n", vendedores[i].codigo, vendedores[i].nome,
                 totalPorVendedor[i]);
     }
 
